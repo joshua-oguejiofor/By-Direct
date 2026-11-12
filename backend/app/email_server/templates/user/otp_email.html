@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Reset Your Password{% endblock %}
+
+{% block content %}
+    <h3>Password Rest</h3>
+
+    <p>Your otp code is: {{ otp }}</p>
+    
+    <p>This code experies in {{ expire }} minutes</p>
+    
+    <strong><p>Do not share this code with anyone</p></strong>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h3>Order Confirmation - Refrence: {{ order_number }}</h3>
+  <p>Hi,</p>
+  <p>Thank you for your purchase! Here is a summary of your order:</p>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+    <thead>
+      <tr style="background-color: #f8f9fa; text-align: left;">
+        <th style="padding: 8px; border-bottom: 1px solid #ddd;">Item</th>
+        <th style="padding: 8px; border-bottom: 1px solid #ddd;">Qty</th>
+        <th style="padding: 8px; border-bottom: 1px solid #ddd;">Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+      <tr>
+        <td style="padding: 8px; border-bottom: 1px solid #eee;">{{ item.product_name }}</td>
+        <td style="padding: 8px; border-bottom: 1px solid #eee;">{{ item.quantity }}</td>
+        <td style="padding: 8px; border-bottom: 1px solid #eee;">₦{{ item.price }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h4 style="text-align: right; margin-top: 15px;">Total: ₦{{ total_amount }}</h4>
+{% endblock %}

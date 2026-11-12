@@ -1,0 +1,33 @@
+# Git version control
+.git
+.gitignore
+
+# Python virtual environment & cache files
+.venv/
+venv/
+ENV/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Local databases & sample data files
+*.db
+*.sqlite3
+bydirect_tesddb.db
+By-Direct_Sample_Data.sql
+
+# Environment variables & secrets
+.env
+.env.*
+
+# Documentation & metadata
+README.md
+docker-compose.yml
+Dockerfile
+
+# Test and logs output
+tests/
+celerybeat-schedule
+*.log

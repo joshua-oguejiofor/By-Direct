@@ -1,0 +1,135 @@
+
+
+
+
+{% extends "base.html" %}
+
+{% block content %}
+<div style="font-family: Arial, sans-serif; color: #51545e;">
+  <!-- Header / Reporting Period Info -->
+  <div style="text-align: center; margin-bottom: 20px;">
+    <h3 style="margin: 0; color: #333333; font-size: 18px;">Monthly Analytics Report</h3>
+    <p style="margin: 5px 0 0; color: #6b6e76; font-size: 14px;">
+      Reporting Period: <strong>{{ overview.period_start.strftime('%B %d, %Y') }}</strong> to <strong>{{ overview.period_end.strftime('%B %d, %Y') }}</strong>
+    </p>
+  </div>
+
+  <div style="font-size: 16px; font-weight: bold; color: #333333; margin-top: 25px; margin-bottom: 15px; border-bottom: 1px solid #f0f0f2; padding-bottom: 5px;">
+    Performance Overview & Growth
+  </div>
+  
+  <!-- Key Metric Cards Row 1: Revenue & Orders -->
+  <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 15px;">
+    <tr>
+      <td width="48%" style="background-color: #f8f9fc; border: 1px solid #eaeaec; border-radius: 6px; padding: 15px; text-align: center;">
+        <div style="font-size: 12px; color: #6b6e76; text-transform: uppercase; margin-bottom: 5px;">Total Revenue</div>
+        <div style="font-size: 20px; font-weight: bold; color: #333333; margin-bottom: 5px;">₦{{ overview.total_revenue }}</div>
+        <div style="font-size: 12px; font-weight: bold; color: {% if growth.revenue_growth_pct >= 0 %}#22bc66{% else %}#e63946{% endif %};">
+          {% if growth.revenue_growth_pct >= 0 %}+{% endif %}{{ growth.revenue_growth_pct }}% vs prev
+        </div>
+      </td>
+      <td width="4%"></td>
+      <td width="48%" style="background-color: #f8f9fc; border: 1px solid #eaeaec; border-radius: 6px; padding: 15px; text-align: center;">
+        <div style="font-size: 12px; color: #6b6e76; text-transform: uppercase; margin-bottom: 5px;">Total Orders</div>
+        <div style="font-size: 20px; font-weight: bold; color: #333333; margin-bottom: 5px;">{{ overview.total_orders }}</div>
+        <div style="font-size: 12px; font-weight: bold; color: {% if growth.order_growth_pct >= 0 %}#22bc66{% else %}#e63946{% endif %};">
+          {% if growth.order_growth_pct >= 0 %}+{% endif %}{{ growth.order_growth_pct }}% vs prev
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Key Metric Cards Row 2: Customers & Average Order Value -->
+  <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 15px;">
+    <tr>
+      <td width="48%" style="background-color: #f8f9fc; border: 1px solid #eaeaec; border-radius: 6px; padding: 15px; text-align: center;">
+        <div style="font-size: 12px; color: #6b6e76; text-transform: uppercase; margin-bottom: 5px;">Total Customers</div>
+        <div style="font-size: 20px; font-weight: bold; color: #333333; margin-bottom: 5px;">{{ overview.total_customers }}</div>
+        <div style="font-size: 12px; font-weight: bold; color: {% if growth.customer_growth_pct >= 0 %}#22bc66{% else %}#e63946{% endif %};">
+          {% if growth.customer_growth_pct >= 0 %}+{% endif %}{{ growth.customer_growth_pct }}% vs prev
+        </div>
+      </td>
+      <td width="4%"></td>
+      <td width="48%" style="background-color: #f8f9fc; border: 1px solid #eaeaec; border-radius: 6px; padding: 15px; text-align: center;">
+        <div style="font-size: 12px; color: #6b6e76; text-transform: uppercase; margin-bottom: 5px;">Average Order Value</div>
+        <div style="font-size: 20px; font-weight: bold; color: #333333; margin-bottom: 5px;">₦{{ overview.average_order_value }}</div>
+        <div style="font-size: 12px; font-weight: bold; color: {% if growth.average_order_value_growth_pct >= 0 %}#22bc66{% else %}#e63946{% endif %};">
+          {% if growth.average_order_value_growth_pct >= 0 %}+{% endif %}{{ growth.average_order_value_growth_pct }}% vs prev
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Detailed Growth Summary Section -->
+  <div style="font-size: 16px; font-weight: bold; color: #333333; margin-top: 25px; margin-bottom: 15px; border-bottom: 1px solid #f0f0f2; padding-bottom: 5px;">
+    Period Growth Summary
+  </div>
+  <table width="100%" cellpadding="0" cellspacing="0" style="width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 15px;">
+    <tr>
+      <th style="padding: 10px; text-align: left; font-size: 14px; border-bottom: 1px solid #eaeaec; color: #6b6e76; font-weight: bold;">Metric</th>
+      <th style="padding: 10px; text-align: right; font-size: 14px; border-bottom: 1px solid #eaeaec; color: #6b6e76; font-weight: bold;">Growth (%)</th>
+    </tr>
+    <tr>
+      <td style="padding: 10px; text-align: left; font-size: 14px; border-bottom: 1px solid #eaeaec;">Revenue Growth</td>
+      <td style="padding: 10px; text-align: right; font-size: 14px; border-bottom: 1px solid #eaeaec; font-weight: bold; color: {% if growth.revenue_growth_pct >= 0 %}#22bc66{% else %}#e63946{% endif %};">
+        {% if growth.revenue_growth_pct >= 0 %}+{% endif %}{{ growth.revenue_growth_pct }}%
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 10px; text-align: left; font-size: 14px; border-bottom: 1px solid #eaeaec;">Order Growth</td>
+      <td style="padding: 10px; text-align: right; font-size: 14px; border-bottom: 1px solid #eaeaec; font-weight: bold; color: {% if growth.order_growth_pct >= 0 %}#22bc66{% else %}#e63946{% endif %};">
+        {% if growth.order_growth_pct >= 0 %}+{% endif %}{{ growth.order_growth_pct }}%
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 10px; text-align: left; font-size: 14px; border-bottom: 1px solid #eaeaec;">Customer Growth</td>
+      <td style="padding: 10px; text-align: right; font-size: 14px; border-bottom: 1px solid #eaeaec; font-weight: bold; color: {% if growth.customer_growth_pct >= 0 %}#22bc66{% else %}#e63946{% endif %};">
+        {% if growth.customer_growth_pct >= 0 %}+{% endif %}{{ growth.customer_growth_pct }}%
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 10px; text-align: left; font-size: 14px; border-bottom: 1px solid #eaeaec;">AOV Growth</td>
+      <td style="padding: 10px; text-align: right; font-size: 14px; border-bottom: 1px solid #eaeaec; font-weight: bold; color: {% if growth.average_order_value_growth_pct >= 0 %}#22bc66{% else %}#e63946{% endif %};">
+        {% if growth.average_order_value_growth_pct >= 0 %}+{% endif %}{{ growth.average_order_value_growth_pct }}%
+      </td>
+    </tr>
+  </table>
+
+  <!-- Order Status Breakdown -->
+  <div style="font-size: 16px; font-weight: bold; color: #333333; margin-top: 25px; margin-bottom: 15px; border-bottom: 1px solid #f0f0f2; padding-bottom: 5px;">
+    Order Status Breakdown
+  </div>
+  
+  <table width="100%" cellpadding="0" cellspacing="0" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+    <tr>
+      <th style="padding: 10px; text-align: left; font-size: 14px; border-bottom: 1px solid #eaeaec; color: #6b6e76; font-weight: bold;">Status</th>
+      <th style="padding: 10px; text-align: right; font-size: 14px; border-bottom: 1px solid #eaeaec; color: #6b6e76; font-weight: bold;">Count</th>
+    </tr>
+    <tr>
+      <td style="padding: 10px; text-align: left; font-size: 14px; border-bottom: 1px solid #eaeaec;">Delivered Orders</td>
+      <td style="padding: 10px; text-align: right; font-size: 14px; border-bottom: 1px solid #eaeaec; font-weight: bold; color: #22bc66;">{{ overview.delivered_orders }}</td>
+    </tr>
+    <tr>
+      <td style="padding: 10px; text-align: left; font-size: 14px; border-bottom: 1px solid #eaeaec;">Pending Orders</td>
+      <td style="padding: 10px; text-align: right; font-size: 14px; border-bottom: 1px solid #eaeaec; font-weight: bold; color: #f0ad4e;">{{ overview.pending_orders }}</td>
+    </tr>
+    <tr>
+      <td style="padding: 10px; text-align: left; font-size: 14px; border-bottom: 1px solid #eaeaec;">Cancelled Orders</td>
+      <td style="padding: 10px; text-align: right; font-size: 14px; border-bottom: 1px solid #eaeaec; font-weight: bold; color: #e63946;">{{ overview.cancelled_orders }}</td>
+    </tr>
+    <tr>
+      <td style="padding: 10px; text-align: left; font-size: 14px; border-bottom: 1px solid #eaeaec;">Total Items Sold</td>
+      <td style="padding: 10px; text-align: right; font-size: 14px; border-bottom: 1px solid #eaeaec; font-weight: bold;">{{ overview.total_items_sold }}</td>
+    </tr>
+    <tr>
+      <td style="padding: 10px; text-align: left; font-size: 14px; border-bottom: 1px solid #eaeaec;">Total Products Listed</td>
+      <td style="padding: 10px; text-align: right; font-size: 14px; border-bottom: 1px solid #eaeaec; font-weight: bold;">{{ overview.total_products }}</td>
+    </tr>
+  </table>
+
+  <!-- Call to Action Button -->
+  <div style="text-align: center; margin-top: 30px;">
+    <a href="#" class="button">View Full Dashboard</a>
+  </div>
+</div>
+{% endblock %}
